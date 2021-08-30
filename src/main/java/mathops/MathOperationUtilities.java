@@ -44,17 +44,21 @@ public final class MathOperationUtilities {
     public static String[] tokenizeExpression(String input) {
         List<String> tokens = new ArrayList<>();
         char[] inputChars = input.toCharArray();
-        Integer num = 0;
+        Integer num = null;
         for (char inputChar : inputChars) {
+            System.out.println (inputChar);
             if (Character.isDigit(inputChar)) {
                 int digit = inputChar - '0';
+                System.out.println ("digit: " + inputChar + " digit: " + digit);
                 if (num != null) {
                     num = num * 10 + digit;
                 } else {
                     num = digit;
+                    System.out.println ("new num: " + digit);
                 }
             } else {
                 if (num != null) {
+                    System.out.println ("add num: " + num);
                     tokens.add(Integer.toString(num));
                     num = null;
                 }
@@ -62,7 +66,26 @@ public final class MathOperationUtilities {
                     tokens.add(Character.toString(inputChar));
                 }
             }
+            System.out.println ("current num: " + num);
         }
+        if (num != null) {
+            tokens.add(Integer.toString(num));
+        }
+        System.out.println (Arrays.toString(tokens.toArray(new String[0])));
         return tokens.toArray(new String[0]);
+    }
+
+    public static boolean isOperand (String s) {
+        char[] chars = s.toCharArray();
+        for (char c : chars) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isOperator (String s) {
+        return "+-*/()".indexOf(s.charAt(0)) > -1;
     }
 }

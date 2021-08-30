@@ -11,6 +11,12 @@ public class BinaryTree {
         this.value = value;
     }
 
+    public BinaryTree(String value, BinaryTree left, BinaryTree right) {
+        this.value = value;
+        this.left = left;
+        this.right = right;
+    }
+
     public void setLeft(BinaryTree left) {
         this.left = left;
     }
@@ -36,11 +42,20 @@ public class BinaryTree {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BinaryTree that = (BinaryTree) o;
-        return value == that.value && Objects.equals(left, that.left) && Objects.equals(right, that.right);
+        return Objects.equals(value, that.value) && Objects.equals(left, that.left) && Objects.equals(right, that.right);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(value, left, right);
+    }
+
+    @Override
+    public String toString() {
+        return "BinaryTree{" +
+                "value='" + value + '\'' +
+                ", left=" + left +
+                ", right=" + right +
+                '}';
     }
 }

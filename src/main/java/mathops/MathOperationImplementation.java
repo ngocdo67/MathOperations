@@ -1,17 +1,31 @@
 package mathops;
 
+import java.util.Arrays;
 import java.util.Stack;
 
 public class MathOperationImplementation implements MathOperation {
 
     @Override
     public BinaryTree convertOperationToTree(String operation) throws Exception {
-        String[] postorder = MathOperationUtilities.infixToPostfix(MathOperationUtilities.tokenizeExpression(operation));
+        String[] postfix = MathOperationUtilities.infixToPostfix(MathOperationUtilities.tokenizeExpression(operation));
         String operators = "+-x/";
         int number = 0;
+        System.out.println (Arrays.toString(postfix));
         Stack<BinaryTree> operandHolder = new Stack<>();
-        
-        return null;
+        for (String token : postfix) {
+            if (MathOperationUtilities.isOperand(token)) {
+                operandHolder.push(new BinaryTree(token));
+            } else if (MathOperationUtilities.isOperator(token)) {
+                if (operandHolder.size() < 2) {
+                    throw new Exception("Invalid input: " + operation);
+                }
+                BinaryTree right = operandHolder.pop();
+                BinaryTree left = operandHolder.pop();
+                BinaryTree newTree = new BinaryTree(token, left, right);
+                operandHolder.push(newTree);
+            }
+        }
+        return operandHolder.peek();
     }
 
     @Override
