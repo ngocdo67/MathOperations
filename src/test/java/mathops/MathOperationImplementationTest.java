@@ -15,7 +15,7 @@ public class MathOperationImplementationTest {
 
     @Test
     public void shouldConvertToTree() {
-        String input = "(( 15 : (7 - (1 + 1))) x -3) -(2 + (1 + 1))";
+        String input = "(( 15 / (7 - (1 + 1))) * -3) -(2 + (1 + 1))";
         BinaryTree expectedTree = buildExpectedTreeCaseOne();
 
         assertEquals(mathOperationImplementation.convertOperationToTree(input), expectedTree);
@@ -23,7 +23,7 @@ public class MathOperationImplementationTest {
 
     @Test
     public void shouldCalculateCorrectly() {
-        String input = "(( 15 / (7 - (1 + 1))) x -3) -(2 + (1 + 1))";
+        String input = "(( 15 / (7 - (1 + 1))) * -3) -(2 + (1 + 1))";
 
         assertEquals(mathOperationImplementation.calculate(input), -13);
     }
@@ -33,7 +33,7 @@ public class MathOperationImplementationTest {
         BinaryTree sevenMinus = initTree("-", "7", onePlusOne);
         BinaryTree fifteenDivide = initTree("/", "15", sevenMinus);
         BinaryTree minusThree = initTreeWithOnlyRight("-", "3");
-        BinaryTree multiply = initTree("x", fifteenDivide, minusThree);
+        BinaryTree multiply = initTree("*", fifteenDivide, minusThree);
 
         BinaryTree newOnePlusOne = initTree("+", "1", "1");
         BinaryTree twoPlus = initTree("+", "2", newOnePlusOne);
