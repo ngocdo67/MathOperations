@@ -8,10 +8,17 @@ public final class MathOperationUtilities {
         String allOperators = "+-*/";
         Queue<String> operands = new LinkedList<>();
         Stack<String> operators = new Stack<>();
+        String prev = null;
+        boolean negativeNum = false;
         for (String token : infix) {
             if (allOperators.contains(token)) {
-                while (!operators.isEmpty() && !operators.peek().equals("(") && !hasLowerPrecedence(operators.peek().charAt(0), token.charAt(0))) {
-                    operands.add(operators.pop());
+                if ("-".equals(token) && (prev == null || "(".equals(prev) || allOperators.contains(prev))) {
+                    operands.add("0");
+                    negativeNum = true;
+                } else {
+                    while (!operators.isEmpty() && !operators.peek().equals("(") && !hasLowerPrecedence(operators.peek().charAt(0), token.charAt(0))) {
+                        operands.add(operators.pop());
+                    }
                 }
                 operators.push(token);
             } else if (token.equals("(")) {
@@ -26,9 +33,14 @@ public final class MathOperationUtilities {
                 operators.pop();
             } else if (Character.isDigit(token.charAt(0))){
                 operands.add(token);
+                if (negativeNum && operators.peek().equals("-")) {
+                    operands.add(operators.pop());
+                    negativeNum = false;
+                }
             } else {
                 throw new Exception("Invalid expression: " + Arrays.toString(infix));
             }
+            prev = token;
         }
         while (!operators.isEmpty()) {
             operands.add(operators.pop());
