@@ -24,7 +24,6 @@ public class MathOperationImplementationTest {
     @Test
     public void shouldCalculateCorrectly() {
         String input = "(( 15 / (7 - (1 + 1))) x -3) -(2 + (1 + 1))";
-        BinaryTree expectedTree = buildExpectedTreeCaseOne();
 
         assertEquals(mathOperationImplementation.calculate(input), -13);
     }
