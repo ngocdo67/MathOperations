@@ -3,16 +3,17 @@ package mathops;
 import java.util.*;
 
 public final class MathOperationUtilities {
+    private static final String ALL_OPERATORS = "+-*/()";
+    private static final String CALCULATION_OPERATORS = "+-*/";
 
     public static String[] infixToPostfix(String[] infix) throws Exception {
-        String allOperators = "+-*/";
         Queue<String> operands = new LinkedList<>();
         Stack<String> operators = new Stack<>();
         String prev = null;
         boolean negativeNum = false;
         for (String token : infix) {
-            if (allOperators.contains(token)) {
-                if ("-".equals(token) && (prev == null || "(".equals(prev) || allOperators.contains(prev))) {
+            if (CALCULATION_OPERATORS.contains(token)) {
+                if ("-".equals(token) && (prev == null || "(".equals(prev) || CALCULATION_OPERATORS.contains(prev))) {
                     operands.add("");
                     negativeNum = true;
                 } else {
@@ -43,6 +44,9 @@ public final class MathOperationUtilities {
             prev = token;
         }
         while (!operators.isEmpty()) {
+            if ("(".equals(operators.peek())) {
+                throw new Exception("Invalid expression: " + Arrays.toString(infix));
+            }
             operands.add(operators.pop());
         }
         return operands.toArray(new String[0]);
@@ -53,7 +57,7 @@ public final class MathOperationUtilities {
         return lowPrecedence.indexOf(first) > -1 && lowPrecedence.indexOf(second) < 0;
     }
 
-    public static String[] tokenizeExpression(String input) {
+    public static String[] tokenizeExpression(String input) throws Exception {
         List<String> tokens = new ArrayList<>();
         char[] inputChars = input.toCharArray();
         Integer num = null;
@@ -65,7 +69,7 @@ public final class MathOperationUtilities {
                 } else {
                     num = digit;
                 }
-            } else {
+            } else if (ALL_OPERATORS.indexOf(inputChar) > -1){
                 if (num != null) {
                     tokens.add(Integer.toString(num));
                     num = null;
@@ -73,6 +77,8 @@ public final class MathOperationUtilities {
                 if (inputChar != ' ') {
                     tokens.add(Character.toString(inputChar));
                 }
+            } else if (inputChar != ' '){
+                throw new Exception("Invalid input: " + input);
             }
         }
         if (num != null) {

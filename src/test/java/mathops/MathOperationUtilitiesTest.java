@@ -43,11 +43,29 @@ public class MathOperationUtilitiesTest {
         assertEquals(MathOperationUtilities.infixToPostfix(inorder), postorder);
     }
 
+    @Test(expectedExceptions = Exception.class)
+    public void testInfixToPostfixWithInvalidOpenParentheses() throws Exception{
+        String[] inorder = new String[] {"3", "+", "5", "*", "(", "6", "-",  "1"};
+        System.out.println(Arrays.toString(MathOperationUtilities.infixToPostfix(inorder)));
+    }
+
+    @Test(expectedExceptions = Exception.class)
+    public void testInfixToPostfixWithInvalidCloseParentheses() throws Exception{
+        String[] inorder = new String[] {"3", "+", "5", "*", ")", "6", "-",  "1"};
+        MathOperationUtilities.infixToPostfix(inorder);
+    }
+
     @Test
-    public void tokenizeExpression () {
+    public void tokenizeExpression () throws Exception {
         String input = "3 + 15 * (16 - (1 + 2))";
         String[] outputs = new String [] {"3", "+", "15", "*", "(", "16", "-", "(", "1", "+", "2", ")", ")"};
         assertEquals(MathOperationUtilities.tokenizeExpression(input), outputs);
+    }
+
+    @Test(expectedExceptions = Exception.class)
+    public void tokenizeExpressionWithInvalidCharacters () throws Exception {
+        String input = "3 + x * (q - (1 + 2))";
+        MathOperationUtilities.tokenizeExpression(input);
     }
 
     @Test
