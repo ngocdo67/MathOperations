@@ -1,6 +1,5 @@
 package mathops;
 
-import java.util.Arrays;
 import java.util.Stack;
 
 public class MathOperationImplementation implements MathOperation {
@@ -47,18 +46,13 @@ public class MathOperationImplementation implements MathOperation {
                 throw new Exception("Invalid operation");
             }
         }
-        switch (tree.getValue()) {
-            case "+":
-                return calculate(tree.getRight()) + calculate(tree.getLeft());
-            case "-":
-                return calculate(tree.getLeft()) - calculate(tree.getRight());
-            case "*":
-                return calculate(tree.getLeft()) * calculate(tree.getRight());
-            case "/":
-                return calculate(tree.getLeft()) / calculate(tree.getRight());
-            default:
-                return 0;
-        }
+        return switch (tree.getValue()) {
+            case "+" -> calculate(tree.getRight()) + calculate(tree.getLeft());
+            case "-" -> calculate(tree.getLeft()) - calculate(tree.getRight());
+            case "*" -> calculate(tree.getLeft()) * calculate(tree.getRight());
+            case "/" -> calculate(tree.getLeft()) / calculate(tree.getRight());
+            default -> 0;
+        };
     }
 
 }

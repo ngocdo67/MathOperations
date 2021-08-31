@@ -50,7 +50,36 @@ public class MathOperationUtilitiesTest {
         assertEquals(MathOperationUtilities.tokenizeExpression(input), outputs);
     }
 
+    @Test
+    public void testValidOperand() {
+        String[] validOperands = new String[] {"1", "15", "1351", "0"};
+        for (String validOperand : validOperands) {
+            assertTrue(MathOperationUtilities.isOperand(validOperand));
+        }
+    }
 
+    @Test
+    public void testInvalidOperand() {
+        String[] validOperands = new String[] {"+", "ab", "  ", "*", "1a", "ab1"};
+        for (String invalidOperand : validOperands) {
+            assertFalse(MathOperationUtilities.isOperand(invalidOperand));
+        }
+    }
 
+    @Test
+    public void testValidOperators() {
+        String[] validOperators = new String[] {"+", "-", "*", "/"};
+        for (String validOperator : validOperators) {
+            assertTrue(MathOperationUtilities.isOperator(validOperator));
+        }
+    }
+
+    @Test
+    public void testInvalidOperators() {
+        String[] invalidOperators = new String[] {"++", "12345", "0", "    ", "a+", "1-", "-1"};
+        for (String invalidOperator : invalidOperators) {
+            assertFalse(MathOperationUtilities.isOperator(invalidOperator));
+        }
+    }
 
 }

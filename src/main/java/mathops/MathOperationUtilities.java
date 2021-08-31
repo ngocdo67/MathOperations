@@ -92,6 +92,6 @@ public final class MathOperationUtilities {
     }
 
     public static boolean isOperator (String s) {
-        return "+-*/()".indexOf(s.charAt(0)) > -1;
+        return s.length() == 1 && "+-*/()".indexOf(s.charAt(0)) > -1;
     }
 }
