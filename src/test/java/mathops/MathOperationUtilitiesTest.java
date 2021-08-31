@@ -46,6 +46,7 @@ public class MathOperationUtilitiesTest {
     @Test(expectedExceptions = Exception.class)
     public void testInfixToPostfixWithInvalidOpenParentheses() throws Exception{
         String[] inorder = new String[] {"3", "+", "5", "*", "(", "6", "-",  "1"};
+        MathOperationUtilities.infixToPostfix(inorder);
     }
 
     @Test(expectedExceptions = Exception.class)
