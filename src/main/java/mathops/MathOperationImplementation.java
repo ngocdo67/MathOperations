@@ -8,9 +8,6 @@ public class MathOperationImplementation implements MathOperation {
     @Override
     public BinaryTree convertOperationToTree(String operation) throws Exception {
         String[] postfix = MathOperationUtilities.infixToPostfix(MathOperationUtilities.tokenizeExpression(operation));
-        String operators = "+-x/";
-        int number = 0;
-        System.out.println (Arrays.toString(postfix));
         Stack<BinaryTree> operandHolder = new Stack<>();
         for (String token : postfix) {
             if (MathOperationUtilities.isOperand(token)) {
@@ -35,8 +32,33 @@ public class MathOperationImplementation implements MathOperation {
     }
 
     @Override
-    public int calculate(String operation) {
-        return 0;
+    public int calculate(String operation) throws Exception {
+        return calculate(convertOperationToTree(operation));
+    }
+
+    private int calculate (BinaryTree tree) throws Exception {
+        if (tree.getLeft() == null && tree.getRight() == null) {
+            return Integer.parseInt(tree.getValue());
+        }
+        if (tree.getLeft() == null) {
+            if ("-".equals(tree.getValue())) {
+                return - calculate(tree.getRight());
+            } else {
+                throw new Exception("Invalid operation");
+            }
+        }
+        switch (tree.getValue()) {
+            case "+":
+                return calculate(tree.getRight()) + calculate(tree.getLeft());
+            case "-":
+                return calculate(tree.getLeft()) - calculate(tree.getRight());
+            case "*":
+                return calculate(tree.getLeft()) * calculate(tree.getRight());
+            case "/":
+                return calculate(tree.getLeft()) / calculate(tree.getRight());
+            default:
+                return 0;
+        }
     }
 
 }

@@ -30,7 +30,7 @@ public class MathOperationImplementationTest {
     }
 
     @Test
-    public void shouldCalculateCorrectly() {
+    public void shouldCalculateCorrectly() throws Exception{
         String input = "(( 15 / (7 - (1 + 1))) * -3) -(2 + (1 + 1))";
 
         assertEquals(mathOperationImplementation.calculate(input), -13);

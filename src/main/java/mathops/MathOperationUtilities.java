@@ -58,19 +58,15 @@ public final class MathOperationUtilities {
         char[] inputChars = input.toCharArray();
         Integer num = null;
         for (char inputChar : inputChars) {
-            System.out.println (inputChar);
             if (Character.isDigit(inputChar)) {
                 int digit = inputChar - '0';
-                System.out.println ("digit: " + inputChar + " digit: " + digit);
                 if (num != null) {
                     num = num * 10 + digit;
                 } else {
                     num = digit;
-                    System.out.println ("new num: " + digit);
                 }
             } else {
                 if (num != null) {
-                    System.out.println ("add num: " + num);
                     tokens.add(Integer.toString(num));
                     num = null;
                 }
@@ -78,12 +74,10 @@ public final class MathOperationUtilities {
                     tokens.add(Character.toString(inputChar));
                 }
             }
-            System.out.println ("current num: " + num);
         }
         if (num != null) {
             tokens.add(Integer.toString(num));
         }
-        System.out.println (Arrays.toString(tokens.toArray(new String[0])));
         return tokens.toArray(new String[0]);
     }
 

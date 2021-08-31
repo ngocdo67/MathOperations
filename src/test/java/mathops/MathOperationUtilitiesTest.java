@@ -26,8 +26,6 @@ public class MathOperationUtilitiesTest {
     public void testInfixToPostfixWithParenthesesAndNeg() throws Exception{
         String[] inorder = new String[] {"3", "+", "-", "5", "*", "(", "6", "-", "1", ")"};
         String[] postorder = new String[] {"3", "", "5", "-", "6", "1", "-", "*",  "+"};
-        System.out.println (Arrays.toString(MathOperationUtilities.infixToPostfix(inorder)));
-
         assertEquals(MathOperationUtilities.infixToPostfix(inorder), postorder);
     }
 
