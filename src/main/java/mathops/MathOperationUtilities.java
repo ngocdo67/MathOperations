@@ -13,31 +13,13 @@ public final class MathOperationUtilities {
         boolean negativeNum = false;
         for (String token : infix) {
             if (CALCULATION_OPERATORS.contains(token)) {
-                if ("-".equals(token) && (prev == null || "(".equals(prev) || CALCULATION_OPERATORS.contains(prev))) {
-                    operands.add("");
-                    negativeNum = true;
-                } else {
-                    while (!operators.isEmpty() && !operators.peek().equals("(") && !hasLowerPrecedence(operators.peek().charAt(0), token.charAt(0))) {
-                        operands.add(operators.pop());
-                    }
-                }
-                operators.push(token);
+                negativeNum = processOperatorTokenAndCheckIfTokenIsNegative(operands, operators, prev, negativeNum, token);
             } else if (token.equals("(")) {
                 operators.push("(");
             } else if (token.equals(")")) {
-                while (!operators.isEmpty() && !operators.peek().equals("(")) {
-                    operands.add(operators.pop());
-                }
-                if (operators.isEmpty() || !operators.peek().equals("(")) {
-                    throw new Exception("Invalid expression: " + Arrays.toString(infix));
-                }
-                operators.pop();
+                processExpressionBetweenParentheses(infix, operands, operators);
             } else if (Character.isDigit(token.charAt(0))){
-                operands.add(token);
-                if (negativeNum && operators.peek().equals("-")) {
-                    operands.add(operators.pop());
-                    negativeNum = false;
-                }
+                negativeNum = processNumericTokenAndResetNegativeVariable(operands, operators, negativeNum, token);
             } else {
                 throw new Exception("Invalid expression: " + Arrays.toString(infix));
             }
@@ -52,6 +34,38 @@ public final class MathOperationUtilities {
         return operands.toArray(new String[0]);
     }
 
+    private static boolean processNumericTokenAndResetNegativeVariable(Queue<String> operands, Stack<String> operators, boolean negativeNum, String token) {
+        operands.add(token);
+        if (negativeNum && operators.peek().equals("-")) {
+            operands.add(operators.pop());
+            negativeNum = false;
+        }
+        return negativeNum;
+    }
+
+    private static void processExpressionBetweenParentheses(String[] infix, Queue<String> operands, Stack<String> operators) throws Exception {
+        while (!operators.isEmpty() && !operators.peek().equals("(")) {
+            operands.add(operators.pop());
+        }
+        if (operators.isEmpty() || !operators.peek().equals("(")) {
+            throw new Exception("Invalid expression: " + Arrays.toString(infix));
+        }
+        operators.pop();
+    }
+
+    private static boolean processOperatorTokenAndCheckIfTokenIsNegative(Queue<String> operands, Stack<String> operators, String prev, boolean negativeNum, String token) {
+        if ("-".equals(token) && (prev == null || "(".equals(prev) || CALCULATION_OPERATORS.contains(prev))) {
+            operands.add("");
+            negativeNum = true;
+        } else {
+            while (!operators.isEmpty() && !operators.peek().equals("(") && !hasLowerPrecedence(operators.peek().charAt(0), token.charAt(0))) {
+                operands.add(operators.pop());
+            }
+        }
+        operators.push(token);
+        return negativeNum;
+    }
+
     private static boolean hasLowerPrecedence (char first, char second) {
         String lowPrecedence = "+-";
         return lowPrecedence.indexOf(first) > -1 && lowPrecedence.indexOf(second) < 0;
@@ -63,20 +77,10 @@ public final class MathOperationUtilities {
         Integer num = null;
         for (char inputChar : inputChars) {
             if (Character.isDigit(inputChar)) {
-                int digit = inputChar - '0';
-                if (num != null) {
-                    num = num * 10 + digit;
-                } else {
-                    num = digit;
-                }
+                num = addDigitToNumber(num, inputChar);
             } else if (ALL_OPERATORS.indexOf(inputChar) > -1){
-                if (num != null) {
-                    tokens.add(Integer.toString(num));
-                    num = null;
-                }
-                if (inputChar != ' ') {
-                    tokens.add(Character.toString(inputChar));
-                }
+                num = addFullNumber(tokens, num);
+                addOperator(tokens, inputChar);
             } else if (inputChar != ' '){
                 throw new Exception("Invalid input: " + input);
             }
@@ -85,6 +89,30 @@ public final class MathOperationUtilities {
             tokens.add(Integer.toString(num));
         }
         return tokens.toArray(new String[0]);
+    }
+
+    private static void addOperator(List<String> tokens, char inputChar) {
+        if (inputChar != ' ') {
+            tokens.add(Character.toString(inputChar));
+        }
+    }
+
+    private static Integer addFullNumber(List<String> tokens, Integer num) {
+        if (num != null) {
+            tokens.add(Integer.toString(num));
+            num = null;
+        }
+        return num;
+    }
+
+    private static Integer addDigitToNumber(Integer num, char inputChar) {
+        int digit = inputChar - '0';
+        if (num != null) {
+            num = num * 10 + digit;
+        } else {
+            num = digit;
+        }
+        return num;
     }
 
     public static boolean isOperand (String s) {
