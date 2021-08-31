@@ -20,7 +20,13 @@ public class MathOperationImplementation implements MathOperation {
                     throw new Exception("Invalid input: " + operation);
                 }
                 BinaryTree right = operandHolder.pop();
+                if (right.getValue().isEmpty()) {
+                    right = null;
+                }
                 BinaryTree left = operandHolder.pop();
+                if (left.getValue().isEmpty()) {
+                    left = null;
+                }
                 BinaryTree newTree = new BinaryTree(token, left, right);
                 operandHolder.push(newTree);
             }

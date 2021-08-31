@@ -13,7 +13,7 @@ public final class MathOperationUtilities {
         for (String token : infix) {
             if (allOperators.contains(token)) {
                 if ("-".equals(token) && (prev == null || "(".equals(prev) || allOperators.contains(prev))) {
-                    operands.add("0");
+                    operands.add("");
                     negativeNum = true;
                 } else {
                     while (!operators.isEmpty() && !operators.peek().equals("(") && !hasLowerPrecedence(operators.peek().charAt(0), token.charAt(0))) {

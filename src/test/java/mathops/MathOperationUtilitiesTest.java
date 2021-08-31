@@ -25,7 +25,7 @@ public class MathOperationUtilitiesTest {
     @Test
     public void testInfixToPostfixWithParenthesesAndNeg() throws Exception{
         String[] inorder = new String[] {"3", "+", "-", "5", "*", "(", "6", "-", "1", ")"};
-        String[] postorder = new String[] {"3", "0", "5", "-", "6", "1", "-", "*",  "+"};
+        String[] postorder = new String[] {"3", "", "5", "-", "6", "1", "-", "*",  "+"};
         System.out.println (Arrays.toString(MathOperationUtilities.infixToPostfix(inorder)));
 
         assertEquals(MathOperationUtilities.infixToPostfix(inorder), postorder);
@@ -34,14 +34,14 @@ public class MathOperationUtilitiesTest {
     @Test
     public void testInfixToPostfixWithParenthesesAndNegAfterParenthesis() throws Exception{
         String[] inorder = new String[] {"3", "+", "5", "*", "(", "-", "6", "-", "1", ")"};
-        String[] postorder = new String[] {"3", "5", "0", "6", "-", "1", "-", "*",  "+"};
+        String[] postorder = new String[] {"3", "5", "", "6", "-", "1", "-", "*",  "+"};
         assertEquals(MathOperationUtilities.infixToPostfix(inorder), postorder);
     }
 
     @Test
     public void testInfixToPostfixWithParenthesesAndNegBeforeParenthesis() throws Exception{
         String[] inorder = new String[] {"-", "(", "6", "-", "1", ")"};
-        String[] postorder = new String[] {"0", "6", "1", "-", "-"};
+        String[] postorder = new String[] {"", "6", "1", "-", "-"};
         assertEquals(MathOperationUtilities.infixToPostfix(inorder), postorder);
     }
 
