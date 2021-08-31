@@ -8,6 +8,7 @@ public final class MathOperationUtilities {
 
     /**
      * Convert an infix expression displayed in an array of string to a postfix expression.
+     * For example -(1 + 1) * 2 + 6 is converted to be 1 1 + - 2 * 6 +
      *
      * @param infix
      * @return
@@ -79,7 +80,7 @@ public final class MathOperationUtilities {
     }
 
     /**
-     * Convert an expressions in String type to a list of tokens.
+     * Convert an expression in String type to a list of tokens.
      * A string "15 + 1 - 3 * (1 + 2)" will be a list of 15, +, 1, -, 3, *, (, 1, +, 2, )
      *
      * @param input
