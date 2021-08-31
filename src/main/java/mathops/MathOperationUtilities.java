@@ -21,13 +21,13 @@ public final class MathOperationUtilities {
             } else if (Character.isDigit(token.charAt(0))){
                 negativeNum = processNumericTokenAndResetNegativeVariable(operands, operators, negativeNum, token);
             } else {
-                throw new Exception("Invalid expression: " + Arrays.toString(infix));
+                throw new Exception("Invalid expression: " + getListForErrorMessage(infix));
             }
             prev = token;
         }
         while (!operators.isEmpty()) {
             if ("(".equals(operators.peek())) {
-                throw new Exception("Invalid expression: " + Arrays.toString(infix));
+                throw new Exception("Invalid expression: " + getListForErrorMessage(infix));
             }
             operands.add(operators.pop());
         }
@@ -48,7 +48,7 @@ public final class MathOperationUtilities {
             operands.add(operators.pop());
         }
         if (operators.isEmpty() || !operators.peek().equals("(")) {
-            throw new Exception("Invalid expression: " + Arrays.toString(infix));
+            throw new Exception("Invalid expression: " + getListForErrorMessage(infix));
         }
         operators.pop();
     }
@@ -127,5 +127,13 @@ public final class MathOperationUtilities {
 
     public static boolean isOperator (String s) {
         return s.length() == 1 && "+-*/()".indexOf(s.charAt(0)) > -1;
+    }
+
+    private static String getListForErrorMessage (String[] tokens) {
+        StringBuilder messageBuilder = new StringBuilder();
+        for (String token : tokens) {
+            messageBuilder.append(token).append(' ');
+        }
+        return messageBuilder.toString();
     }
 }
