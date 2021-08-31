@@ -78,11 +78,13 @@ public final class MathOperationUtilities {
         for (char inputChar : inputChars) {
             if (Character.isDigit(inputChar)) {
                 num = addDigitToNumber(num, inputChar);
-            } else if (ALL_OPERATORS.indexOf(inputChar) > -1){
+            } else {
                 num = addFullNumber(tokens, num);
-                addOperator(tokens, inputChar);
-            } else if (inputChar != ' '){
-                throw new Exception("Invalid input: " + input);
+                if (ALL_OPERATORS.indexOf(inputChar) > -1){
+                    addOperator(tokens, inputChar);
+                } else if (inputChar != ' '){
+                    throw new Exception("Invalid input: " + input);
+                }
             }
         }
         if (num != null) {

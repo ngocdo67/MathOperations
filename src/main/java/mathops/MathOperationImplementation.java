@@ -27,6 +27,9 @@ public class MathOperationImplementation implements MathOperation {
                 operandHolder.push(newTree);
             }
         }
+        if (operandHolder.size() != 1) {
+            throw new Exception("Invalid operation: " + operation);
+        }
         return operandHolder.peek();
     }
 

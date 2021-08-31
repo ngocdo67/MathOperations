@@ -2,8 +2,6 @@ package mathops;
 
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-
 import static org.testng.Assert.*;
 
 public class MathOperationUtilitiesTest {
@@ -59,6 +57,20 @@ public class MathOperationUtilitiesTest {
     public void tokenizeExpression () throws Exception {
         String input = "3 + 15 * (16 - (1 + 2))";
         String[] outputs = new String [] {"3", "+", "15", "*", "(", "16", "-", "(", "1", "+", "2", ")", ")"};
+        assertEquals(MathOperationUtilities.tokenizeExpression(input), outputs);
+    }
+
+    @Test
+    public void tokenizeExpressionWithOnlyOperand () throws Exception {
+        String input = "3 15 1543 1";
+        String[] outputs = new String [] {"3", "15", "1543", "1"};
+        assertEquals(MathOperationUtilities.tokenizeExpression(input), outputs);
+    }
+
+    @Test
+    public void tokenizeExpressionWithOperandAndParentheses () throws Exception {
+        String input = "3 ( 15 1543 1 )";
+        String[] outputs = new String [] {"3", "(", "15", "1543", "1", ")"};
         assertEquals(MathOperationUtilities.tokenizeExpression(input), outputs);
     }
 

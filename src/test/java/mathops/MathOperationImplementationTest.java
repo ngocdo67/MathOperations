@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 public class MathOperationImplementationTest {
-    MathOperationImplementation mathOperationImplementation;
+    private MathOperationImplementation mathOperationImplementation;
 
     @BeforeMethod
     public void setUp() {
@@ -36,6 +36,30 @@ public class MathOperationImplementationTest {
         assertEquals(mathOperationImplementation.calculate(input), -13);
     }
 
+    @Test
+    public void shouldCalculateNegativeExpression() throws Exception{
+        assertEquals(mathOperationImplementation.calculate("-1"), -1);
+        assertEquals(mathOperationImplementation.calculate("- 100"), -100);
+        assertEquals(mathOperationImplementation.calculate("- (1 + 100)"), -101);
+        assertEquals(mathOperationImplementation.calculate("- 1 * -80"), 80);
+    }
+
+    @Test
+    public void shouldCalculateOneOperand() throws Exception{
+        assertEquals(mathOperationImplementation.calculate("1000"), 1000);
+        assertEquals(mathOperationImplementation.calculate("(1000)"), 1000);
+    }
+
+    @Test (expectedExceptions = Exception.class)
+    public void shouldErrorOnInvalidOperation() throws Exception {
+        mathOperationImplementation.calculate("1 / 0");
+    }
+
+    @Test(expectedExceptions = Exception.class)
+    public void shouldNotCalculateInvalidExpression() throws Exception{
+        System.out.println(mathOperationImplementation.calculate("5 15"));
+    }
+
     private BinaryTree buildExpectedSimpleTree () {
         BinaryTree onePlusOne = initTree("+", "1", "1");
         return initTree("*", onePlusOne, "2");
@@ -57,12 +81,6 @@ public class MathOperationImplementationTest {
     private BinaryTree initTreeWithOnlyRight (String op, String right) {
         BinaryTree res = new BinaryTree(op);
         res.setRight(new BinaryTree(right));
-        return res;
-    }
-
-    private BinaryTree initTreeWithOnlyLeft (String op, String left) {
-        BinaryTree res = new BinaryTree(op);
-        res.setLeft(new BinaryTree(left));
         return res;
     }
 
