@@ -6,6 +6,13 @@ public final class MathOperationUtilities {
     private static final String ALL_OPERATORS = "+-*/()";
     private static final String CALCULATION_OPERATORS = "+-*/";
 
+    /**
+     * Convert an infix expression displayed in an array of string to a postfix expression.
+     *
+     * @param infix
+     * @return
+     * @throws Exception is thrown if expression is invalid
+     */
     public static String[] infixToPostfix(String[] infix) throws Exception {
         Queue<String> operands = new LinkedList<>();
         Stack<String> operators = new Stack<>();
@@ -71,6 +78,14 @@ public final class MathOperationUtilities {
         return lowPrecedence.indexOf(first) > -1 && lowPrecedence.indexOf(second) < 0;
     }
 
+    /**
+     * Convert an expressions in String type to a list of tokens.
+     * A string "15 + 1 - 3 * (1 + 2)" will be a list of 15, +, 1, -, 3, *, (, 1, +, 2, )
+     *
+     * @param input
+     * @return
+     * @throws Exception if the expression contains invalid characters
+     */
     public static String[] tokenizeExpression(String input) throws Exception {
         List<String> tokens = new ArrayList<>();
         char[] inputChars = input.toCharArray();
